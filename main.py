@@ -1,15 +1,18 @@
-import os, json
+import os
+import json
 from utils.colours import colour_text
 
-# import each scene’s entry function
-from scenes.intro      import scene as intro_scene
-from scenes.treehouse  import scene as treehouse_scene
-from scenes.timehill   import scene as timehill_scene
+from scenes.intro    import scene as intro_scene
+from scenes.forest   import scene as forest_scene
+from scenes.castle   import scene as castle_scene
+from scenes.snow     import scene as snow_scene
+from scenes.timehill import scene as timehill_scene
 
-# map scene IDs to those functions
 SCENE_HANDLERS = {
-    "intro": intro_scene,
-    "treehouse_start": treehouse_scene,
+    "intro":          intro_scene,
+    "forest_start":   forest_scene,
+    "castle_start":   castle_scene,
+    "snow_start":     snow_scene,
     "timehill_start": timehill_scene,
 }
 
@@ -17,10 +20,10 @@ SAVE_PATH = "data/save.json"
 
 def load_game():
     if os.path.exists(SAVE_PATH):
-        with open(SAVE_PATH) as f:
+        with open(SAVE_PATH, "r") as f:
             try:
                 return json.load(f).get("scene", "intro")
-            except:
+            except json.JSONDecodeError:
                 pass
     return "intro"
 
